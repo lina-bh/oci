@@ -11,16 +11,13 @@ locals {
     ICMPSIX = "58"
   }
 
-  cluster_ipv4cidr = "10.70.0.0/24"
-  cluster_ipv6cidr = cidrsubnet(oci_core_vcn.vcn.ipv6cidr_blocks[0], 8, 3)
+  vm_ipv4cidr = cidrsubnet(var.subnet, 8, 0)
+  vm_ipv6cidr = cidrsubnet(oci_core_vcn.vcn.ipv6cidr_blocks[0], 8, 0)
 
-  kube_apiserver_ipv4cidr = "10.67.0.0/24"
-  kube_apiserver_ipv6cidr = cidrsubnet(oci_core_vcn.vcn.ipv6cidr_blocks[0], 8, 1)
+  apiserver4 = cidrsubnet(var.subnet, 8, 1)
+  apiserver6 = cidrsubnet(oci_core_vcn.vcn.ipv6cidr_blocks[0], 8, 1)
 
-  cluster_cidrs = toset(
-    concat(
-      oci_core_subnet.cluster.ipv4cidr_blocks,
-      oci_core_subnet.cluster.ipv6cidr_blocks
-    )
-  )
+  worker4 = cidrsubnet(var.subnet, 8, 2)
+
+  pod_subnet = "10.244.0.0/16"
 }

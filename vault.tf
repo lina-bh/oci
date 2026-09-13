@@ -12,4 +12,5 @@ resource "oci_kms_key" "primary" {
     algorithm = "AES"
     length    = 32
   }
+  protection_mode = "SOFTWARE"
 }

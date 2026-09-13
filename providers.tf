@@ -22,6 +22,18 @@ terraform {
       source  = "hashicorp/local"
       version = "2.9.1"
     }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "4.4.1"
+    }
+    tailscale = {
+      source  = "tailscale/tailscale"
+      version = "0.29.2"
+    }
+    cloudinit = {
+      source  = "hashicorp/cloudinit"
+      version = "2.4.1"
+    }
   }
 }
 

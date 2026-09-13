@@ -4,8 +4,7 @@
 /tmp/
 **/terraform.tfstate*
 .env.local
-manifests/clustersecretstore-oci.yaml
 .oci/
 inventory.ini
 .kube/
-.data/helm/plugins
+.ssh/
