@@ -128,7 +128,7 @@ module "nsl_node" {
 
   network_security_group_id = oci_core_network_security_group.node.id
 
-  tcp_out   = { http = 80, https = 443, /* dns = 53 */ }
+  tcp_out   = { http = 80, https = 443, ssh = 22 /* dns = 53 */ }
   udp_out   = { /* dns = 53 */ }
   tailscale = false
   services  = "all-lhr-services-in-oracle-services-network"
