@@ -1,0 +1,5 @@
+kind: Kustomization
+resources:
+- source.toolkit.fluxcd.io_OCIRepository_external-secrets.yaml
+- helm.toolkit.fluxcd.io_HelmRelease_external-secrets.yaml
+- external-secrets.io_ClusterSecretStore_oci.yaml
