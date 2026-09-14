@@ -63,7 +63,7 @@ resource "oci_containerengine_node_pool" "vm_standard_a1_flex" {
 
     nsg_ids = [oci_core_network_security_group.node.id]
 
-    size = 1
+    size = 2
   }
 
   node_source_details {
