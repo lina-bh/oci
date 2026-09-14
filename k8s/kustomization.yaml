@@ -3,3 +3,12 @@ kind: Kustomization
 resources:
 - ./flux-system
 - ./infrastructure
+patches:
+- target:
+    group: kustomize.toolkit.fluxcd.io
+    kind: Kustomization
+    namespace: flux-system
+  patch: |-
+    - op: replace
+      path: /spec/interval
+      value: 10m0s
