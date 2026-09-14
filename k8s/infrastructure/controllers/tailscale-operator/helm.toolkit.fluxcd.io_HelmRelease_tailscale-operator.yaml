@@ -6,8 +6,6 @@ metadata:
 spec:
   interval: 168h
   targetNamespace: tailscale
-  install:
-    createNamespace: true
   chart:
     spec:
       chart: tailscale-operator

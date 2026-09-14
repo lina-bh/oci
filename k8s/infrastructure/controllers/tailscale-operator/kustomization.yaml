@@ -1,6 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+- namespace_tailscale.yaml
 - source.toolkit.fluxcd.io_HelmRepository_tailscale.yaml
 - helm.toolkit.fluxcd.io_HelmRelease_tailscale-operator.yaml
 - externalsecret.external-secrets.io_operator-oauth.yaml
