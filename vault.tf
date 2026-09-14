@@ -55,7 +55,7 @@ resource "oci_vault_secret" "tailscale_operator" {
 }
 
 resource "local_file" "operator-oauth" {
-  filename        = "${path.root}/k8s/infrastructure/tailscale/external-secrets.io_ExternalSecret_operator-oauth.yaml"
+  filename        = "${path.root}/k8s/infrastructure/configs/tailscale/external-secrets.io_ExternalSecret_operator-oauth.yaml"
   file_permission = "0644"
   content         = <<-EOT
 ---
