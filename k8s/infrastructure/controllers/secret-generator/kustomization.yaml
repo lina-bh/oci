@@ -1,0 +1,4 @@
+kind: Kustomization
+resources:
+- helmrepository.source.toolkit.fluxcd.io_mittwald.yaml
+- helmrelease.helm.toolkit.fluxcd.io_secret-generator.yaml
