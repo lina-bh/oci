@@ -5,13 +5,12 @@ resource "oci_kms_vault" "vault" {
 }
 
 resource "local_file" "vault" {
-  filename        = "${path.root}/k8s/infrastructure/external-secrets/external-secrets.io_ClusterSecretStore_oci.yaml"
+  filename        = "${path.root}/k8s/infrastructure/configs/external-secrets/external-secrets.io_ClusterSecretStore_oci.yaml"
   file_permission = "0644"
   content         = <<-EOT
 apiVersion: external-secrets.io/v1
 kind: ClusterSecretStore
 metadata:
-  namespace: external-secrets
   name: oci
 spec:
   provider:
@@ -55,7 +54,7 @@ resource "oci_vault_secret" "tailscale_operator" {
 }
 
 resource "local_file" "operator-oauth" {
-  filename        = "${path.root}/k8s/infrastructure/configs/tailscale/external-secrets.io_ExternalSecret_operator-oauth.yaml"
+  filename        = "${path.root}/k8s/infrastructure/controllers/tailscale-operator/externalsecret.external-secrets.io_operator-oauth.yaml"
   file_permission = "0644"
   content         = <<-EOT
 ---
