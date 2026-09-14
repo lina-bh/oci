@@ -5,3 +5,15 @@ variable "compartment_ocid" {
 variable "subnet" {
   type = string
 }
+
+variable "vm_tcp_out" {
+  type = set(number)
+}
+
+variable "vm_udp_out" {
+  type = set(number)
+}
+
+variable "node_tcp_out" {
+  type = set(number)
+}

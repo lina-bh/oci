@@ -34,22 +34,79 @@ resource "oci_core_network_security_group" "vm0" {
   display_name = "vm0"
 }
 
-module "vm_nsl" {
-  source = "./nsl"
+resource "oci_core_network_security_group_security_rule" "vm_tcp_to_inet" {
+  for_each = {
+    for i in setproduct(["0.0.0.0/0", "::/0"], var.vm_tcp_out) :
+    "${i[0]}:${i[1]}" => {
+      dest = i[0],
+      port = i[1]
+    }
+  }
 
   network_security_group_id = oci_core_network_security_group.vm0.id
 
-  tcp_out = { http = 80, https = 443, }
-  udp_out = { stun = 3478, tailscale = 41641 }
+  direction        = "EGRESS"
+  destination      = each.value.dest
+  destination_type = "CIDR_BLOCK"
+  protocol         = local.security_list_protocol.TCP
+  stateless        = false
+  tcp_options {
+    destination_port_range {
+      min = each.value.port
+      max = each.value.port
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "vm_udp_to_inet" {
+  for_each = {
+    for i in setproduct(["0.0.0.0/0", "::/0"], var.vm_udp_out) :
+    "${i[0]}:${i[1]}" => {
+      dest = i[0],
+      port = i[1]
+    }
+  }
+
+  network_security_group_id = oci_core_network_security_group.vm0.id
+
+  direction        = "EGRESS"
+  destination      = each.value.dest
+  destination_type = "CIDR_BLOCK"
+  protocol         = local.security_list_protocol.UDP
+  stateless        = false
+  udp_options {
+    destination_port_range {
+      min = each.value.port
+      max = each.value.port
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "vm_ts_to_inet" {
+  for_each = toset(["0.0.0.0/0", "::/0"])
+
+  network_security_group_id = oci_core_network_security_group.vm0.id
+
+  direction        = "EGRESS"
+  destination      = each.value
+  destination_type = "CIDR_BLOCK"
+  protocol         = local.security_list_protocol.UDP
+  stateless        = false
+  udp_options {
+    source_port_range {
+      min = 41641
+      max = 41641
+    }
+  }
 }
 
 resource "oci_core_network_security_group_security_rule" "vm_from_inet_ts" {
-  for_each = toset(["4", "6"])
+  for_each = toset(["0.0.0.0/0", "::/0"])
 
   network_security_group_id = oci_core_network_security_group.vm0.id
 
   direction   = "INGRESS"
-  source      = each.value == "4" ? "0.0.0.0/0" : "::/0"
+  source      = each.value
   source_type = "CIDR_BLOCK"
   protocol    = local.security_list_protocol.UDP
   stateless   = false
@@ -90,5 +147,31 @@ resource "oci_core_network_security_group_security_rule" "vm_to_node_ssh" {
       min = 22
       max = 22
     }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "vm_mtu4_in" {
+  network_security_group_id = oci_core_network_security_group.vm0.id
+
+  direction   = "INGRESS"
+  source      = "0.0.0.0/0"
+  source_type = "CIDR_BLOCK"
+  protocol    = local.security_list_protocol.ICMP
+  icmp_options {
+    type = 3
+    code = 4
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "vm_mtu4_out" {
+  network_security_group_id = oci_core_network_security_group.vm0.id
+
+  direction        = "EGRESS"
+  destination      = "0.0.0.0/0"
+  destination_type = "CIDR_BLOCK"
+  protocol         = local.security_list_protocol.ICMP
+  icmp_options {
+    type = 3
+    code = 4
   }
 }

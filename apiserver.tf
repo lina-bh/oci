@@ -2,18 +2,6 @@ resource "oci_core_route_table" "api" {
   compartment_id = oci_core_vcn.vcn.compartment_id
   vcn_id         = oci_core_vcn.vcn.id
 
-  # route_rules {
-  #   network_entity_id = oci_core_internet_gateway.inet.id
-  #   destination       = "0.0.0.0/0"
-  #   destination_type  = "CIDR_BLOCK"
-  # }
-
-  # route_rules {
-  #   network_entity_id = oci_core_internet_gateway.inet.id
-  #   destination       = "::/0"
-  #   destination_type  = "CIDR_BLOCK"
-  # }
-
   route_rules {
     network_entity_id = oci_core_service_gateway.svc.id
     destination       = "all-lhr-services-in-oracle-services-network"
@@ -29,7 +17,6 @@ resource "oci_core_subnet" "api" {
   ipv6cidr_block  = local.apiserver6
   display_name    = "api"
   route_table_id  = oci_core_route_table.api.id
-  # prohibit_public_ip_on_vnic = false
 }
 
 resource "oci_core_network_security_group" "api" {
@@ -136,12 +123,3 @@ resource "oci_core_network_security_group_security_rule" "api_to_worker_kubelet"
     }
   }
 }
-
-# resource "oci_core_network_security_group_security_rule" "api_to_pod" {
-#   network_security_group_id = oci_core_network_security_group.api.id
-
-#   direction        = "EGRESS"
-#   destination      = local.pod_subnet
-#   destination_type = "CIDR_BLOCK"
-#   protocol         = "all"
-# }

@@ -41,17 +41,6 @@ resource "oci_core_network_security_group_security_rule" "node_from_node" {
   protocol    = "all"
 }
 
-# resource "oci_core_network_security_group_security_rule" "pod_from_pod" {
-#   network_security_group_id = oci_core_network_security_group.node.id
-
-#   direction        = "INGRESS"
-#   source           = local.pod_subnet
-#   source_type      = "CIDR_BLOCK"
-#   destination      = local.pod_subnet
-#   destination_type = "CIDR_BLOCK"
-#   protocol         = "all"
-# }
-
 resource "oci_core_network_security_group_security_rule" "node_kubelet_from_api" {
   network_security_group_id = oci_core_network_security_group.node.id
 
@@ -77,17 +66,6 @@ resource "oci_core_network_security_group_security_rule" "node_to_node" {
   destination_type = "NETWORK_SECURITY_GROUP"
   protocol         = "all"
 }
-
-# resource "oci_core_network_security_group_security_rule" "pod_to_pod" {
-#   network_security_group_id = oci_core_network_security_group.node.id
-
-#   direction        = "EGRESS"
-#   source           = local.pod_subnet
-#   source_type      = "CIDR_BLOCK"
-#   destination      = local.pod_subnet
-#   destination_type = "CIDR_BLOCK"
-#   protocol         = "all"
-# }
 
 resource "oci_core_network_security_group_security_rule" "node_to_api" {
   for_each                  = { api_server = 6443, oke_agent = 12250 }
@@ -123,13 +101,62 @@ resource "oci_core_network_security_group_security_rule" "worker_to_node_ssh" {
   }
 }
 
-module "nsl_node" {
-  source = "./nsl"
+resource "oci_core_network_security_group_security_rule" "node_tcp_to_inet" {
+  for_each = { for port in var.node_tcp_out : "${port}" => port }
 
   network_security_group_id = oci_core_network_security_group.node.id
 
-  tcp_out   = { http = 80, https = 443, ssh = 22, dns = 53 }
-  udp_out   = { dns = 53 }
-  tailscale = false
-  services  = "all-lhr-services-in-oracle-services-network"
+  direction        = "EGRESS"
+  destination      = "0.0.0.0/0"
+  destination_type = "CIDR_BLOCK"
+  protocol         = local.security_list_protocol.TCP
+  stateless        = false
+  tcp_options {
+    destination_port_range {
+      min = each.value
+      max = each.value
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "node_to_svc" {
+  network_security_group_id = oci_core_network_security_group.node.id
+
+  direction        = "EGRESS"
+  destination      = "all-lhr-services-in-oracle-services-network"
+  destination_type = "SERVICE_CIDR_BLOCK"
+  protocol         = local.security_list_protocol.TCP
+  stateless        = false
+  tcp_options {
+    destination_port_range {
+      min = 443
+      max = 443
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "node_mtu4_in" {
+  network_security_group_id = oci_core_network_security_group.node.id
+
+  direction   = "INGRESS"
+  source      = "0.0.0.0/0"
+  source_type = "CIDR_BLOCK"
+  protocol    = local.security_list_protocol.ICMP
+  icmp_options {
+    type = 3
+    code = 4
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "node_mtu4_out" {
+  network_security_group_id = oci_core_network_security_group.node.id
+
+  direction        = "EGRESS"
+  destination      = "0.0.0.0/0"
+  destination_type = "CIDR_BLOCK"
+  protocol         = local.security_list_protocol.ICMP
+  icmp_options {
+    type = 3
+    code = 4
+  }
 }
