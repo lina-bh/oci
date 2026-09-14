@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
 - ./kustomization.kustomize.toolkit.fluxcd.io_external-secrets.yaml
 - ./kustomization.kustomize.toolkit.fluxcd.io_tailscale-operator.yaml
-- ./kustomization.kustomize.toolkit.fluxcd.io_secret-generator.yaml
