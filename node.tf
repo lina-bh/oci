@@ -89,7 +89,7 @@ resource "oci_core_network_security_group_security_rule" "worker_to_node_ssh" {
   network_security_group_id = oci_core_network_security_group.node.id
 
   direction   = "INGRESS"
-  source      = oci_core_network_security_group.vm0.id
+  source      = oci_core_network_security_group.vm.id
   source_type = "NETWORK_SECURITY_GROUP"
   protocol    = local.security_list_protocol.TCP
 

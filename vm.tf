@@ -1,4 +1,4 @@
-resource "oci_core_route_table" "vm0" {
+resource "oci_core_route_table" "vm" {
   compartment_id = oci_core_vcn.vcn.compartment_id
 
   vcn_id = oci_core_vcn.vcn.id
@@ -16,22 +16,22 @@ resource "oci_core_route_table" "vm0" {
   }
 }
 
-resource "oci_core_subnet" "vm0" {
+resource "oci_core_subnet" "vm" {
   compartment_id             = oci_core_vcn.vcn.compartment_id
   vcn_id                     = oci_core_vcn.vcn.id
   dns_label                  = "vm0"
   ipv4cidr_blocks            = [local.vm_ipv4cidr]
   ipv6cidr_blocks            = [local.vm_ipv6cidr]
-  display_name               = "vm0"
+  display_name               = "vm"
   prohibit_public_ip_on_vnic = false
-  route_table_id             = oci_core_route_table.vm0.id
+  route_table_id             = oci_core_route_table.vm.id
 }
 
-resource "oci_core_network_security_group" "vm0" {
-  compartment_id = oci_core_subnet.vm0.compartment_id
-  vcn_id         = oci_core_subnet.vm0.vcn_id
+resource "oci_core_network_security_group" "vm" {
+  compartment_id = oci_core_subnet.vm.compartment_id
+  vcn_id         = oci_core_subnet.vm.vcn_id
 
-  display_name = "vm0"
+  display_name = "vm"
 }
 
 resource "oci_core_network_security_group_security_rule" "vm_tcp_to_inet" {
@@ -43,7 +43,7 @@ resource "oci_core_network_security_group_security_rule" "vm_tcp_to_inet" {
     }
   }
 
-  network_security_group_id = oci_core_network_security_group.vm0.id
+  network_security_group_id = oci_core_network_security_group.vm.id
 
   direction        = "EGRESS"
   destination      = each.value.dest
@@ -67,7 +67,7 @@ resource "oci_core_network_security_group_security_rule" "vm_udp_to_inet" {
     }
   }
 
-  network_security_group_id = oci_core_network_security_group.vm0.id
+  network_security_group_id = oci_core_network_security_group.vm.id
 
   direction        = "EGRESS"
   destination      = each.value.dest
@@ -85,7 +85,7 @@ resource "oci_core_network_security_group_security_rule" "vm_udp_to_inet" {
 resource "oci_core_network_security_group_security_rule" "vm_ts_to_inet" {
   for_each = toset(["0.0.0.0/0", "::/0"])
 
-  network_security_group_id = oci_core_network_security_group.vm0.id
+  network_security_group_id = oci_core_network_security_group.vm.id
 
   direction        = "EGRESS"
   destination      = each.value
@@ -103,7 +103,7 @@ resource "oci_core_network_security_group_security_rule" "vm_ts_to_inet" {
 resource "oci_core_network_security_group_security_rule" "vm_from_inet_ts" {
   for_each = toset(["0.0.0.0/0", "::/0"])
 
-  network_security_group_id = oci_core_network_security_group.vm0.id
+  network_security_group_id = oci_core_network_security_group.vm.id
 
   direction   = "INGRESS"
   source      = each.value
@@ -119,7 +119,7 @@ resource "oci_core_network_security_group_security_rule" "vm_from_inet_ts" {
 }
 
 resource "oci_core_network_security_group_security_rule" "vm_to_api" {
-  network_security_group_id = oci_core_network_security_group.vm0.id
+  network_security_group_id = oci_core_network_security_group.vm.id
 
   direction        = "EGRESS"
   destination      = oci_core_network_security_group.api.id
@@ -135,7 +135,7 @@ resource "oci_core_network_security_group_security_rule" "vm_to_api" {
 }
 
 resource "oci_core_network_security_group_security_rule" "vm_to_node_ssh" {
-  network_security_group_id = oci_core_network_security_group.vm0.id
+  network_security_group_id = oci_core_network_security_group.vm.id
 
   direction        = "EGRESS"
   destination      = oci_core_network_security_group.node.id
@@ -151,7 +151,7 @@ resource "oci_core_network_security_group_security_rule" "vm_to_node_ssh" {
 }
 
 resource "oci_core_network_security_group_security_rule" "vm_mtu4_in" {
-  network_security_group_id = oci_core_network_security_group.vm0.id
+  network_security_group_id = oci_core_network_security_group.vm.id
 
   direction   = "INGRESS"
   source      = "0.0.0.0/0"
@@ -164,7 +164,7 @@ resource "oci_core_network_security_group_security_rule" "vm_mtu4_in" {
 }
 
 resource "oci_core_network_security_group_security_rule" "vm_mtu4_out" {
-  network_security_group_id = oci_core_network_security_group.vm0.id
+  network_security_group_id = oci_core_network_security_group.vm.id
 
   direction        = "EGRESS"
   destination      = "0.0.0.0/0"

@@ -28,7 +28,7 @@ resource "oci_core_network_security_group" "api" {
 
 resource "oci_core_network_security_group_security_rule" "api_api" {
   for_each = toset([
-    oci_core_network_security_group.vm0.id,
+    oci_core_network_security_group.vm.id,
     oci_core_network_security_group.node.id
   ])
 
