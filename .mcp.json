@@ -1,0 +1,27 @@
+{
+  "mcpServers": {
+    "kubernetes-mcp-server": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "kubernetes-mcp-server@latest"
+      ],
+      "directTools": [
+        "configuration_view",
+        "events_list",
+        "namespaces_list",
+        "nodes_log",
+        "nodes_stats_summary",
+        "nodes_top",
+        "pods_get",
+        "pods_list",
+        "pods_list_in_namespace",
+        "pods_log",
+        "pods_top",
+        "projects_list",
+        "resources_get",
+        "resources_list"
+      ]
+    }
+  }
+}
