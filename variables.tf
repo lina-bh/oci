@@ -17,3 +17,7 @@ variable "vm_udp_out" {
 variable "node_tcp_out" {
   type = set(number)
 }
+
+variable "node_udp_out" {
+  type = set(number)
+}

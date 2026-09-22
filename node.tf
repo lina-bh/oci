@@ -119,6 +119,24 @@ resource "oci_core_network_security_group_security_rule" "node_tcp_to_inet" {
   }
 }
 
+resource "oci_core_network_security_group_security_rule" "node_udp_to_inet" {
+  for_each = { for port in var.node_udp_out : "${port}" => port }
+
+  network_security_group_id = oci_core_network_security_group.node.id
+
+  direction        = "EGRESS"
+  destination      = "0.0.0.0/0"
+  destination_type = "CIDR_BLOCK"
+  protocol         = local.security_list_protocol.TCP
+  stateless        = false
+  tcp_options {
+    destination_port_range {
+      min = each.value
+      max = each.value
+    }
+  }
+}
+
 resource "oci_core_network_security_group_security_rule" "node_to_svc" {
   network_security_group_id = oci_core_network_security_group.node.id
 
