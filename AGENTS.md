@@ -1,5 +1,15 @@
 # AGENTS.md
 
+## Oracle Cloud Always Free limits
+
+* Agents SHOULD NOT suggest increasing resources over Oracle Cloud Always Free
+  limits.
+* As of 2026-06-12, the Always Free A1.Flex limit is: "All tenancies get the
+  first 1,500 OCPU hours and 9,000 GB hours per month for free for VM instances
+  using the VM.Standard.A1.Flex shape, which has an Arm processor. For Always
+  Free tenancies, this is equivalent to 2 OCPUs and 12 GB of memory."
+  (https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm)
+
 ## OCI Instance Console History
 
 Capture the latest serial console history snapshot and print content to stdout:

@@ -40,7 +40,7 @@ resource "oci_containerengine_node_pool" "vm_standard_a1_flex" {
   name       = "vm_standard_a1_flex"
 
   node_shape_config {
-    memory_in_gbs = 2
+    memory_in_gbs = 4
     ocpus         = 1
   }
 
