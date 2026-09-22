@@ -1,5 +1,10 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-- ./kustomization.kustomize.toolkit.fluxcd.io_external-secrets.yaml
-- ./kustomization.kustomize.toolkit.fluxcd.io_tailscale-operator.yaml
+---
+{
+  apiVersion: "kustomize.config.k8s.io/v1beta1",
+  kind: "Kustomization",
+  resources: [
+    "./kustomization.kustomize.toolkit.fluxcd.io_external-secrets.yaml",
+    "./kustomization.kustomize.toolkit.fluxcd.io_tailscale-operator.yaml",
+    "./local-path-provisioner/",
+  ],
+}

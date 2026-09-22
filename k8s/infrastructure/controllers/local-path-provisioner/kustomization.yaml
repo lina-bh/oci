@@ -1,0 +1,8 @@
+---
+{
+  kind: "Kustomization",
+  resources: [
+    "source.yaml",
+    "release.yaml",
+  ],
+}
