@@ -5,7 +5,6 @@
   resources: [
     "./kustomization.kustomize.toolkit.fluxcd.io_external-secrets.yaml",
     "./kustomization.kustomize.toolkit.fluxcd.io_tailscale-operator.yaml",
-    "./kustomization.kustomize.toolkit.fluxcd.io_nfs-ganesha-server-and-external-provisioner.yaml"
     "./local-path-provisioner/",
   ],
 }
