@@ -97,26 +97,3 @@ resource "oci_core_instance" "nfs" {
     "user_data" = module.cloudinit-tailscale.rendered
   }
 }
-
-resource "oci_core_volume" "nfs" {
-  lifecycle {
-    prevent_destroy = true
-  }
-
-  compartment_id      = oci_core_instance.nfs.compartment_id
-  availability_domain = oci_core_instance.nfs.availability_domain
-
-  display_name = "nfs"
-  size_in_gbs  = 50
-  vpus_per_gb  = 20
-}
-
-resource "oci_core_volume_attachment" "nfs" {
-  instance_id = oci_core_instance.nfs.id
-  volume_id   = oci_core_volume.nfs.id
-
-  device          = "/dev/oracleoci/oraclevdb"
-  attachment_type = "paravirtualized"
-
-  is_pv_encryption_in_transit_enabled = true
-}

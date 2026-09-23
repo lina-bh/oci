@@ -1,0 +1,10 @@
+---
+{
+  kind: "Kustomization",
+  resources: [
+    "namespace.yaml",
+    "release.yaml",
+    "source.yaml",
+    "oci-bv-high-pv.yaml",
+  ],
+}

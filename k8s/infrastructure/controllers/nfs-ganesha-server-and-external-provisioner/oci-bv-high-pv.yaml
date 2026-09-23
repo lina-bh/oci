@@ -1,0 +1,19 @@
+---
+{
+  allowVolumeExpansion: false,
+  apiVersion: "storage.k8s.io/v1",
+  kind: "StorageClass",
+  metadata: {
+    annotations: {
+      storageclass.kubernetes.io/is-default-class: "false",
+    },
+    name: "oci-bv-high-pv",
+  },
+  provisioner: "blockvolume.csi.oraclecloud.com",
+  reclaimPolicy: "Delete",
+  volumeBindingMode: "WaitForFirstConsumer",
+  parameters: {
+    attachment-type: "paravirtualized",
+    vpusPerGB: "20",
+  },
+}

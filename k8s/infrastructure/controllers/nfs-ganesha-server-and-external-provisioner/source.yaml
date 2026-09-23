@@ -1,0 +1,17 @@
+---
+{
+  apiVersion: "source.toolkit.fluxcd.io/v1",
+  kind: "GitRepository",
+  metadata: {
+    name: "nfs-ganesha-server-and-external-provisioner",
+    namespace: "flux-system",
+  },
+  spec: {
+    interval: "24h",
+    url: "https://github.com/kubernetes-sigs/nfs-ganesha-server-and-external-provisioner.git",
+    ref: {
+      branch: "master",
+      commit: "84d9acf3aea6901647038d9f175c80927ab0e6ba",
+    },
+  },
+}

@@ -1,0 +1,34 @@
+---
+{
+  apiVersion: "helm.toolkit.fluxcd.io/v2",
+  kind: "HelmRelease",
+  metadata: {
+    name: "nfs-server-provisioner",
+    namespace: "flux-system",
+  },
+  spec: {
+    interval: "24h",
+    chart: {
+      spec: {
+        chart: "./charts/nfs-server-provisioner/",
+        sourceRef: {
+          kind: "GitRepository",
+          name: "nfs-ganesha-server-and-external-provisioner",
+        },
+      },
+    },
+    targetNamespace: "nfs-server-provisioner",
+    values: {
+      image: {
+        repository: "ghcr.io/lina-bh/nfs-provisioner",
+        tag: "v6.5",
+      },
+      persistence: {
+        enabled: true,
+        storageClass: "oci-bv-high-pv",
+        size: "50Gi",
+      },
+    },
+    suspend: false,
+  },
+}
