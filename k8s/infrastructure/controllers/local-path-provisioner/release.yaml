@@ -14,7 +14,7 @@
           kind: "GitRepository",
           name: "local-path-provisioner",
         },
-        chart: "./deploy/chart/local-path-provisioner",
+        chart: "./deploy/chart/local-path-provisioner/",
       },
     },
     targetNamespace: "local-path-storage",
