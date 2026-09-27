@@ -5,6 +5,8 @@
   resources: [
     "./kustomization.kustomize.toolkit.fluxcd.io_external-secrets.yaml",
     "./kustomization.kustomize.toolkit.fluxcd.io_tailscale-operator.yaml",
+    "./kustomization.kustomize.toolkit.fluxcd.io_kube-prometheus-stack.yaml",
+    "./kustomization.kustomize.toolkit.fluxcd.io_metric-server.yaml",
     "./local-path-provisioner/",
   ],
 }
