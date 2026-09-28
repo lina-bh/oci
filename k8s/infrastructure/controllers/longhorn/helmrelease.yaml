@@ -1,0 +1,73 @@
+---
+{
+  apiVersion: "helm.toolkit.fluxcd.io/v2",
+  kind: "HelmRelease",
+  metadata: {
+    name: "longhorn",
+    namespace: "flux-system",
+  },
+  spec: {
+    chart: {
+      spec: {
+        chart: "longhorn",
+        sourceRef: {
+          kind: "HelmRepository",
+          name: "longhorn",
+        },
+      },
+    },
+    interval: "24h",
+    targetNamespace: "longhorn-system",
+    install: {
+      crds: "CreateReplace",
+      createNamespace: true,
+    },
+    upgrade: {
+      crds: "CreateReplace",
+    },
+    values: {
+      global: {
+        imageRegistry: "docker.io",
+      },
+      csi: {
+        attacherReplicaCount: 1,
+        provisionerReplicaCount: 1,
+        resizerReplicaCount: 1,
+        snapshotterReplicaCount: 1,
+      },
+      longhornUI: {
+        replicas: 1,
+      },
+      longhornGlobalManager: {
+        replicas: 1,
+      },
+      networkPolicies: {
+        enabled: true,
+      },
+      persistence: {
+        defaultClass: false,
+        defaultClassReplicaCount: 2,
+        migratable: true,
+        unmapMarkSnapChainRemoved: "enabled",
+      },
+      preUpgradeChecker: {
+        jobEnabled: false,
+      },
+      metrics: {
+        serviceMonitor: {
+          enabled: true,
+        },
+      },
+      defaultSettings: {
+        autoCleanupSystemGeneratedSnapshot: true,
+        removeSnapshotsDuringFilesystemTrim: true,
+        concurrentReplicaRebuildPerNodeLimit: 1,
+        orphanResourceAutoDeletion: "replica-data;instance",
+        allowVolumeCreationWithDegradedAvailability: false,
+        nodeDownPodDeletionPolicy: "delete-both-statefulset-and-deployment-pod",
+        nodeDrainPolicy: "block-if-contains-last-replica",
+        guaranteedInstanceManagerCPU: 5,
+      },
+    },
+  },
+}
