@@ -14,7 +14,7 @@
     },
     url: "oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack",
     ref: {
-      tag: "91.7.1",
+      tag: "91.9.0",
     },
   },
 }
