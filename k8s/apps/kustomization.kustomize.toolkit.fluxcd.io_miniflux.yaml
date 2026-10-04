@@ -1,0 +1,24 @@
+---
+{
+  apiVersion: "kustomize.toolkit.fluxcd.io/v1",
+  kind: "Kustomization",
+  metadata: {
+    name: "miniflux",
+    namespace: "flux-system",
+  },
+  spec: {
+    path: "./k8s/apps/miniflux/",
+    prune: true,
+    sourceRef: {
+      kind: "GitRepository",
+      name: "flux-system",
+    },
+    dependsOn: [{
+      name: "tailscale-config",
+    }, {
+      name: "longhorn",
+    }, {
+      name: "cloudnative-pg",
+    }],
+  },
+}

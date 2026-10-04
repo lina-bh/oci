@@ -1,0 +1,7 @@
+---
+{
+  kind: "Kustomization",
+  resources: [
+    "kustomization.kustomize.toolkit.fluxcd.io_miniflux.yaml",
+  ],
+}

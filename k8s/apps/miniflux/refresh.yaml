@@ -1,0 +1,28 @@
+---
+{
+  apiVersion: "batch/v1",
+  kind: "CronJob",
+  metadata: {
+    name: "refresh",
+  },
+  spec: {
+    schedule: "0 */3 * * *",
+    jobTemplate: {
+      spec: {
+        template: {
+          spec: {
+            restartPolicy: "Never",
+            containers: [{
+              name: "refresh",
+              image: "miniflux",
+              command: [
+                "miniflux",
+                "-refresh-feeds",
+              ],
+            }],
+          },
+        },
+      },
+    },
+  },
+}

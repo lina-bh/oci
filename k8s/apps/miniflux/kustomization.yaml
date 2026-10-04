@@ -1,0 +1,171 @@
+---
+{
+  namePrefix: "miniflux-",
+  labels: [{
+    pairs: {
+      app.kubernetes.io/name: "miniflux",
+    },
+    includeSelectors: true,
+  }],
+  resources: [
+    "pg.yaml",
+    "app.yaml",
+    "svc.yaml",
+    "ingress.yaml",
+    "refresh.yaml",
+    "cleanup.yaml",
+    "container.yaml",
+    "pod.yaml",
+  ],
+  configMapGenerator: [{
+    name: "env",
+    envs: [
+      "env.sh",
+    ],
+  }],
+  images: [{
+    name: "miniflux",
+    newName: "ghcr.io/miniflux/miniflux",
+    newTag: "2.3.3-distroless@sha256:59e4e31b349f008ecd34b547f23498b1d8abc0c03d5f6d12bdb713ab7f7c04bf",
+  }],
+  replacements: [{
+    source: {
+      kind: "ConfigMap",
+      name: "container",
+      fieldPath: "data.securityContext",
+    },
+    targets: [{
+      select: {
+        kind: "Deployment",
+      },
+      fieldPaths: [
+        "spec.template.spec.containers.*.securityContext",
+        "spec.template.spec.initContainers.*.securityContext",
+      ],
+      options: {
+        create: true,
+      },
+    }, {
+      select: {
+        kind: "CronJob",
+      },
+      fieldPaths: [
+        "spec.jobTemplate.spec.template.spec.containers.*.securityContext",
+      ],
+      options: {
+        create: true,
+      },
+    }],
+  }, {
+    source: {
+      kind: "ConfigMap",
+      name: "container",
+      fieldPath: "data.envFrom",
+    },
+    targets: [{
+      select: {
+        kind: "Deployment",
+      },
+      fieldPaths: [
+        "spec.template.spec.containers.*.envFrom",
+        "spec.template.spec.initContainers.*.envFrom",
+      ],
+      options: {
+        create: true,
+      },
+    }, {
+      select: {
+        kind: "CronJob",
+      },
+      fieldPaths: [
+        "spec.jobTemplate.spec.template.spec.containers.*.envFrom",
+      ],
+      options: {
+        create: true,
+      },
+    }],
+  }, {
+    source: {
+      kind: "ConfigMap",
+      name: "container",
+      fieldPath: "data.volumeMounts",
+    },
+    targets: [{
+      select: {
+        kind: "Deployment",
+      },
+      fieldPaths: [
+        "spec.template.spec.containers.*.volumeMounts",
+        "spec.template.spec.initContainers.*.volumeMounts",
+      ],
+      options: {
+        create: true,
+      },
+    }, {
+      select: {
+        kind: "CronJob",
+      },
+      fieldPaths: [
+        "spec.jobTemplate.spec.template.spec.containers.*.volumeMounts",
+      ],
+      options: {
+        create: true,
+      },
+    }],
+  }, {
+    source: {
+      kind: "ConfigMap",
+      name: "pod",
+      fieldPath: "data.volumes",
+    },
+    targets: [{
+      select: {
+        kind: "Deployment",
+      },
+      fieldPaths: [
+        "spec.template.spec.volumes",
+      ],
+      options: {
+        create: true,
+      },
+    }, {
+      select: {
+        kind: "CronJob",
+      },
+      fieldPaths: [
+        "spec.jobTemplate.spec.template.spec.volumes",
+      ],
+      options: {
+        create: true,
+      },
+    }],
+  }, {
+    source: {
+      kind: "ConfigMap",
+      name: "pod",
+      fieldPath: "data.automountServiceAccountToken",
+    },
+    targets: [{
+      select: {
+        kind: "Deployment",
+      },
+      fieldPaths: [
+        "spec.template.spec.automountServiceAccountToken",
+      ],
+      options: {
+        create: true,
+      },
+    }, {
+      select: {
+        kind: "CronJob",
+      },
+      fieldPaths: [
+        "spec.jobTemplate.spec.template.spec.automountServiceAccountToken",
+      ],
+      options: {
+        create: true,
+      },
+    }],
+  }],
+  patches: [],
+}
