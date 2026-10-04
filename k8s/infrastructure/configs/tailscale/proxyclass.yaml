@@ -1,0 +1,10 @@
+---
+{
+  apiVersion: "tailscale.com/v1alpha1",
+  kind: "ProxyClass",
+  metadata: {
+    name: "ingress",
+    namespace: "tailscale",
+  },
+  spec: {},
+}

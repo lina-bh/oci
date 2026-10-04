@@ -1,0 +1,15 @@
+---
+{
+  apiVersion: "tailscale.com/v1alpha1",
+  kind: "ProxyGroup",
+  metadata: {
+    name: "ingress",
+    namespace: "tailscale",
+  },
+  spec: {
+    hostnamePrefix: "oke-ingress",
+    type: "ingress",
+    replicas: 1,
+    proxyClass: "ingress",
+  },
+}

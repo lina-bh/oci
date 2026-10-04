@@ -1,0 +1,8 @@
+---
+{
+  namespace: "tailscale",
+  resources: [
+    "proxyclass.yaml",
+    "proxygroup.yaml",
+  ],
+}
