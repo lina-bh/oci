@@ -20,5 +20,6 @@
     }, {
       name: "cloudnative-pg",
     }],
+    targetNamespace: "default",
   },
 }
