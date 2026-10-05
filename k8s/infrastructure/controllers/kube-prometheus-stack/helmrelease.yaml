@@ -25,10 +25,23 @@
         enabled: false,
       },
       alertmanager: {
+        kubeScheduler: {
+          enabled: false,
+        },
+        kubeControllerManager: {
+          enabled: false,
+        },
         alertmanagerSpec: {
           secrets: [
             "discord",
           ],
+        },
+        defaultRules: {
+          rules: {
+            kubeSchedulerAlerting: false,
+            kubeSchedulerRecording: false,
+            kubeControllerManager: false,
+          },
         },
         config: {
           receivers: [{
