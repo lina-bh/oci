@@ -5,16 +5,17 @@ metadata:
   name: descheduler
   namespace: flux-system
 spec:
-  interval: 24h
-  targetNamespace: kube-system
-  install:
-    crds: CreateReplace
-  upgrade:
-    crds: CreateReplace
   chart:
     spec:
       chart: descheduler
-      version: 0.37.0
       sourceRef:
         kind: HelmRepository
         name: descheduler
+      version: 0.37.0
+  install:
+    crds: CreateReplace
+  interval: 24h
+  targetNamespace: kube-system
+  timeout: 10m0s
+  upgrade:
+    crds: CreateReplace

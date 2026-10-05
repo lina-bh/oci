@@ -1,23 +1,15 @@
 ---
-{
-  apiVersion: "kustomize.toolkit.fluxcd.io/v1",
-  kind: "Kustomization",
-  metadata: {
-    namespace: "flux-system",
-    name: "tailscale-config",
-  },
-  spec: {
-    interval: "1m0s",
-    path: "./k8s/infrastructure/configs/tailscale/",
-    prune: true,
-    wait: true,
-    timeout: "5m0s",
-    sourceRef: {
-      kind: "GitRepository",
-      name: "flux-system",
-    },
-    dependsOn: [{
-      name: "tailscale-operator",
-    }],
-  },
-}
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: tailscale-config
+  namespace: flux-system
+spec:
+  dependsOn:
+  - name: tailscale-operator
+  path: ./k8s/infrastructure/configs/tailscale/
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
