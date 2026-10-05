@@ -1,0 +1,19 @@
+---
+{
+  checks: {
+    addAllBuiltIn: true,
+    exclude: [
+      "unset-cpu-requirements",
+      "unset-memory-requirements",
+      "dnsconfig-options",
+      "default-service-account",
+      "minimum-three-replicas",
+      "no-node-affinity",
+      "required-label-owner",
+      "required-annotation-email",
+      "use-namespace",
+      "no-liveness-probe",
+      "no-readiness-probe",
+    ],
+  },
+}

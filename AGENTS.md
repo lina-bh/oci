@@ -1,14 +1,22 @@
 # AGENTS.md
 
+## Cluster access
+
+* Agents SHOULD NOT set `$KUBECONFIG` or use `kubectl --kubeconfig`.
+
 ## Oracle Cloud Always Free limits
 
-* Agents SHOULD NOT suggest increasing resources over Oracle Cloud Always Free
+* Agents MUST NOT suggest increasing resources over Oracle Cloud Always Free
   limits.
 * As of 2026-06-12, the Always Free A1.Flex limit is: "All tenancies get the
   first 1,500 OCPU hours and 9,000 GB hours per month for free for VM instances
   using the VM.Standard.A1.Flex shape, which has an Arm processor. For Always
   Free tenancies, this is equivalent to 2 OCPUs and 12 GB of memory."
   (https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm)
+* Block volumes at 20 VPUs/GB (Higher Performance) are free within the 200 GB
+  Always Free block volume allowance, based on anecdotal evidence and
+  experience. Oracle's Always Free documentation does not mention performance
+  levels, so agents SHOULD NOT flag 20 VPUs/GB as a cost concern.
 
 ## OCI Instance Console History
 
