@@ -1,2 +1,5 @@
 formatter:
-  type: kyaml
+  type: basic
+  include_document_start: true
+  indentless_arrays: true
+  force_array_style: block
