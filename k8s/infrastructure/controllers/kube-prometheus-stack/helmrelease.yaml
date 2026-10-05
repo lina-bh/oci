@@ -24,13 +24,16 @@
       grafana: {
         enabled: false,
       },
+      kubeScheduler: {
+        enabled: false,
+      },
+      kubeControllerManager: {
+        enabled: false,
+      },
+      kubeEtcd: {
+        enabled: false,
+      },
       alertmanager: {
-        kubeScheduler: {
-          enabled: false,
-        },
-        kubeControllerManager: {
-          enabled: false,
-        },
         alertmanagerSpec: {
           secrets: [
             "discord",
@@ -38,9 +41,10 @@
         },
         defaultRules: {
           rules: {
+            etcd: false,
+            kubeControllerManager: false,
             kubeSchedulerAlerting: false,
             kubeSchedulerRecording: false,
-            kubeControllerManager: false,
           },
         },
         config: {
