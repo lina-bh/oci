@@ -12,6 +12,8 @@ spec:
         kind: HelmRepository
         name: descheduler
       version: 0.37.0
+  dependsOn:
+  - name: metrics-server
   install:
     crds: CreateReplace
   interval: 24h
@@ -19,3 +21,40 @@ spec:
   timeout: 10m0s
   upgrade:
     crds: CreateReplace
+  values:
+    deschedulerPolicy:
+      metricsProviders:
+      - source: KubernetesMetrics
+      profiles:
+      - name: default
+        pluginConfig:
+        - args:
+            podProtections:
+              extraEnabled:
+              - PodsWithPVC
+          name: DefaultEvictor
+        - name: RemovePodsViolatingTopologySpreadConstraint
+        - args:
+            metricsUtilization:
+              source: KubernetesMetrics
+            targetThresholds:
+              cpu: 50
+              memory: 60
+              pods: 40
+            thresholds:
+              cpu: 30
+              memory: 50
+              pods: 20
+          name: LowNodeUtilization
+        plugins:
+          balance:
+            enabled:
+            - RemovePodsViolatingTopologySpreadConstraint
+            - LowNodeUtilization
+    resources:
+      limits:
+        memory: 128Mi
+      requests:
+        cpu: 20m
+        memory: 64Mi
+    schedule: "*/30 * * * *"
