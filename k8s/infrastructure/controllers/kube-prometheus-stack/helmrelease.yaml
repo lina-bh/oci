@@ -33,19 +33,29 @@
       kubeEtcd: {
         enabled: false,
       },
+      defaultRules: {
+        rules: {
+          etcd: false,
+          kubeControllerManager: false,
+          kubeSchedulerAlerting: false,
+          kubeSchedulerRecording: false,
+          kubeApiserverAvailability: false,
+        },
+      },
+      prometheus: {
+        prometheusSpec: {
+          serviceMonitorSelectorNilUsesHelmValues: false,
+          podMonitorSelectorNilUsesHelmValues: false,
+          probeSelectorNilUsesHelmValues: false,
+          scrapeConfigSelectorNilUsesHelmValues: false,
+          ruleSelectorNilUsesHelmValues: false,
+        },
+      },
       alertmanager: {
         alertmanagerSpec: {
           secrets: [
             "discord",
           ],
-        },
-        defaultRules: {
-          rules: {
-            etcd: false,
-            kubeControllerManager: false,
-            kubeSchedulerAlerting: false,
-            kubeSchedulerRecording: false,
-          },
         },
         config: {
           receivers: [{
