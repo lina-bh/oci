@@ -111,6 +111,7 @@ resource "oci_core_network_security_group_security_rule" "node_tcp_to_inet" {
   destination_type = "CIDR_BLOCK"
   protocol         = local.security_list_protocol.TCP
   stateless        = false
+
   tcp_options {
     destination_port_range {
       min = each.value
@@ -127,9 +128,10 @@ resource "oci_core_network_security_group_security_rule" "node_udp_to_inet" {
   direction        = "EGRESS"
   destination      = "0.0.0.0/0"
   destination_type = "CIDR_BLOCK"
-  protocol         = local.security_list_protocol.TCP
+  protocol         = local.security_list_protocol.UDP
   stateless        = false
-  tcp_options {
+
+  udp_options {
     destination_port_range {
       min = each.value
       max = each.value
