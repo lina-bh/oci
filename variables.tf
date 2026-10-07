@@ -2,6 +2,10 @@ variable "compartment_ocid" {
   type = string
 }
 
+variable "home_prefix" {
+  type = string
+}
+
 variable "subnet" {
   type = string
 }
