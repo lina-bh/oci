@@ -17,6 +17,10 @@ output "node_id" {
   }
 }
 
+output "terraform_user_id" {
+  value = oci_identity_user.terraform.id
+}
+
 output "clustersecretstore_oci" {
   value = yamlencode({
     apiVersion = "external-secrets.io/v1",

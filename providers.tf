@@ -4,7 +4,6 @@ terraform {
     key    = "terraform.tfstate"
 
     use_path_style = true
-    insecure       = true
 
     region                 = "us-east-1"
     skip_region_validation = true
