@@ -16,7 +16,17 @@
         "ghcr.io/prometheus-community/charts/kube-prometheus-stack"
       ],
       "matchUpdateTypes": [
-        "minor"
+        "minor",
+        "patch"
+      ],
+      "automerge": true
+    },
+    {
+      "matchPackageNames": [
+        "fluxcd/flux2"
+      ],
+      "matchUpdateTypes": [
+        "patch"
       ],
       "automerge": true
     }
