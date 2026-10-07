@@ -5,13 +5,26 @@
   ],
   "packageRules": [
     {
-      "matchDatasources": ["terraform"],
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchDatasources": [
+        "terraform-provider"
+      ],
+      "enabled": false
+    },
+    {
+      "matchPackageNames": [
+        "ghcr.io/external-secrets/charts/external-secrets",
+        "ghcr.io/prometheus-community/charts/kube-prometheus-stack"
+      ],
+      "matchUpdateTypes": [
+        "minor"
+      ],
       "automerge": true
     }
   ],
   "flux": {
-    "managerFilePatterns": ["/^k8s/.+\\.ya?ml$/"]
+    "managerFilePatterns": [
+      "/^k8s/.+\\.ya?ml$/"
+    ]
   },
   "automergeType": "branch",
   "ignoreTests": true
