@@ -10,7 +10,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: tailscale
-      version: 1.102.4
+      version: 1.104.2
   interval: 24h
   targetNamespace: tailscale
   timeout: 10m0s
