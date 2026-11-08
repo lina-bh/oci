@@ -1,0 +1,10 @@
+[settings]
+lockfile = true
+lockfile_platforms = ["linux-x64"]
+
+[env._]
+file = [".env.local"]
+
+[tools]
+opentofu = "latest"
+"pipx:oci-cli" = "latest"

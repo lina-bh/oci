@@ -1,9 +1,5 @@
 # AGENTS.md
 
-## Cluster access
-
-* Agents SHOULD NOT set `$KUBECONFIG` or use `kubectl --kubeconfig`.
-
 ## Oracle Cloud Always Free limits
 
 * Agents MUST NOT suggest increasing resources over Oracle Cloud Always Free
